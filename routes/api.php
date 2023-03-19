@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Path: routes/api.php
+// Compare this snippet from app/Http/Controllers/CategoryController.php:
+Route::get('/categories', [CategoryController::class, 'list']);
+Route::get('/categories/{id}', [CategoryController::class, 'findOne']);
+Route::post('/categories', [CategoryController::class, 'create']);
