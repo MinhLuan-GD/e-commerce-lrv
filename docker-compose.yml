@@ -98,6 +98,15 @@ services:
             - '/dev/shm:/dev/shm'
         networks:
             - sail
+    thumbor:
+        image: minimalcompact/thumbor:latest
+        environment:
+            THUMBOR_NUM_PROCESSES: 8
+            LOADER: thumbor.loaders.file_loader
+        volumes:
+            - ./data:/data/loader
+        ports:
+            - 8888:80
 networks:
     sail:
         driver: bridge

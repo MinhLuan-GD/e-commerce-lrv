@@ -13,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return User::all();
     }
 
     /**
@@ -29,15 +29,15 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        return User::create($request->all());
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($id)
     {
-        //
+        return User::find($id);
     }
 
     /**
@@ -51,16 +51,16 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, $id)
     {
-        //
+        return User::find($id)->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        return User::find($id)->delete();
     }
 }

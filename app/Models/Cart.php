@@ -17,4 +17,6 @@ class Cart extends Model
         'productId',
         'quantity',
     ];
+
+    protected $primaryKey = '_id';
 }

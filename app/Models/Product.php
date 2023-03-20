@@ -21,6 +21,7 @@ class Product extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->hasMany(ProductImage::class, 'productId', '_id');
     }
+    protected $primaryKey = '_id';
 }
