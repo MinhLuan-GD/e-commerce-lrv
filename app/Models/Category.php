@@ -12,4 +12,6 @@ class Category extends Model
     protected $fillable = [
         'title',
     ];
+
+    protected $primaryKey = '_id';
 }

@@ -11,17 +11,17 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function list()
     {
-        //
+        return Order::all();
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($order)
     {
-        //
+        
     }
 
     /**

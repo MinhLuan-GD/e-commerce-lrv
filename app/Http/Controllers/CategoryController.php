@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use Illuminate\Http\Request;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -11,38 +12,34 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function list()
+    public function index()
     {
         return Category::all();
-    }
-
-    public function findOne($id)
-    {
-        return Category::all()->where('_id', $id)->first();
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        return Category::create($request->all());
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        return Category::find($id);
+    }
+
+    public function create(Request $request)
+    {
+        return 'create';
     }
 
     /**
