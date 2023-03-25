@@ -10,7 +10,7 @@ import Content from "@/components/shop/Content.vue";
 import Footer from "@/components/footer/Footer.vue";
 import { Options, Vue } from "vue-class-component";
 import store from "@/store";
-import { getProducts } from "@/api/product";
+import { getProducts, getProductsByCategory } from "@/api/product";
 import { watch } from "vue";
 
 @Options({
@@ -28,7 +28,7 @@ export default class ShopView extends Vue {
 
   changeProduct() {
     if (this.$route.query.cate) {
-      getProducts(`?category=${this.$route.query.cate}`).then(({ data }) => {
+      getProductsByCategory(this.$route.query.cate).then(({ data }) => {
         store.dispatch("setProducts", data);
       });
     } else {

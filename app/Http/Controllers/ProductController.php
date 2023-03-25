@@ -14,10 +14,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // if ($request->query('category') !== null) {
-        //     return Product::where('category', $request->query('category'))->get()->load('images');
-        // }
         return Product::all()->load('images');
+    }
+
+    public function findByCategory($category)
+    {
+        return Product::where('category', $category)->get()->load('images');
     }
 
     /**
