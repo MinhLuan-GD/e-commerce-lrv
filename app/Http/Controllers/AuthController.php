@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -14,7 +14,7 @@ class AuthController extends Controller
     $this->middleware('auth:api', ['except' => ['login', 'register']]);
   }
 
-  public function login(FormRequest $request)
+  public function login(Request $request)
   {
     $validator = Validator::make($request->all(), [
       'email' => 'required|email',
@@ -32,21 +32,23 @@ class AuthController extends Controller
     return $this->createNewToken($token);
   }
 
-  public function register(FormRequest $request)
+  public function register(Request $request)
   {
     $validator = Validator::make($request->all(), [
-      'name' => 'required|string|between:2,100',
       'email' => 'required|string|email|max:100|unique:users',
-      'password' => 'required|string|confirmed|min:6',
+      'password' => 'required|string|min:6',
     ]);
 
     if ($validator->fails()) {
-      return response()->json($validator->errors()->toJson(), 400);
+      return response()->json($validator->errors(), 400);
     }
 
     $user = User::create(array_merge(
       $validator->validated(),
-      ['password' => bcrypt($request->password)]
+      [
+        'password' => bcrypt($request->password),
+        'isAdmin' => false,
+      ]
     ));
 
     return response()->json([
@@ -82,7 +84,7 @@ class AuthController extends Controller
     ]);
   }
 
-  public function changePassWord(FormRequest $request)
+  public function changePassWord(Request $request)
   {
     $validator = Validator::make($request->all(), [
       'old_password' => 'required|string|min:6',
@@ -90,7 +92,7 @@ class AuthController extends Controller
     ]);
 
     if ($validator->fails()) {
-      return response()->json($validator->errors()->toJson(), 400);
+      return response()->json($validator->errors(), 400);
     }
     $userId = auth()->user()->id;
 

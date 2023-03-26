@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id('_id');
             $table->string('email')->unique();
             $table->string('password');
-            $table->boolean('isAdmin');
-            $table->string('name');
-            $table->string('image');
-            $table->string('address');
-            $table->integer('age');
+            $table->boolean('isAdmin')->nullable();
+            $table->string('name')->nullable();
+            $table->string('image')->nullable();
+            $table->string('address')->nullable();
+            $table->integer('age')->nullable();
             $table->timestamps();
         });
         Schema::dropIfExists('personal_access_tokens');

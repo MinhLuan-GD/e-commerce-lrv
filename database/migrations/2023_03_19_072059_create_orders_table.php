@@ -20,8 +20,8 @@ return new class extends Migration
             $table->integer('itemsPrice');
             $table->integer('shippingPrice');
             $table->integer('totalPrice');
-            $table->boolean('isDelivered');
-            $table->timestamp('deliveredAt');
+            $table->boolean('isDelivered')->default(false);
+            $table->timestamp('deliveredAt')->nullable();
             $table->timestamps();
         });
     }

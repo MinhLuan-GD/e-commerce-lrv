@@ -29,15 +29,9 @@ Route::get('products-top-products', [ProductController::class, 'ratingProducts']
 Route::apiResource('orders', OrderController::class);
 Route::apiResource('users', UserController::class);
 
-Route::group([
-  'middleware' => 'api',
-  'prefix' => 'auth'
-
-], function ($router) {
-  Route::post('/login', [AuthController::class, 'login']);
-  Route::post('/register', [AuthController::class, 'register']);
-  Route::post('/logout', [AuthController::class, 'logout']);
-  Route::post('/refresh', [AuthController::class, 'refresh']);
-  Route::get('/user-profile', [AuthController::class, 'userProfile']);
-  Route::post('/change-pass', [AuthController::class, 'changePassWord']);
-});
+Route::post('auth/login', [AuthController::class, 'login']);
+Route::post('auth/register', [AuthController::class, 'register']);
+Route::post('auth/logout', [AuthController::class, 'logout']);
+Route::post('auth/refresh', [AuthController::class, 'refresh']);
+Route::get('auth/user-profile', [AuthController::class, 'userProfile']);
+Route::post('auth/change-pass', [AuthController::class, 'changePassWord']);

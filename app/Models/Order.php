@@ -16,6 +16,7 @@ class Order extends Model
         'shippingAddress',
         'paymentMethod',
         'itemsPrice',
+        'cart',
         'shippingPrice',
         'totalPrice',
         'isDelivered',
@@ -28,7 +29,7 @@ class Order extends Model
 
     public function cart(): HasMany
     {
-        return $this->hasMany(Cart::class);
+        return $this->hasMany(OrderItem::class);
     }
     protected $primaryKey = '_id';
 }

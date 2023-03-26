@@ -4,12 +4,17 @@ import { Product } from "@/models/product";
 import { User } from "@/models/user";
 
 interface State {
-  "3cate": Category[];
-  user: User | null;
-  products: Product[];
-  newProducts: Product[];
-  topProducts: Product[];
-  cart: CartItem[];
+    "3cate": Category[];
+    user: User | null;
+    products: Product[];
+    newProducts: Product[];
+    topProducts: Product[];
+    cart: CartItem[];
 }
 
-export { State };
+interface LoginResult {
+    user: User;
+    access_token: string;
+}
+
+export { State, LoginResult };

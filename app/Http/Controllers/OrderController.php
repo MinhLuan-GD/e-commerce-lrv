@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\OrderItem;
 
 class OrderController extends Controller
 {
@@ -33,15 +34,16 @@ class OrderController extends Controller
         $shippingPrice = 0;
         $status = 'created';
         $paymentMethod = 'stripe';
-        $itemsPrice = $request->cart->sum(fn ($item) => $item->price * $item->quantity);
-        $totalPrice = $itemsPrice + $shippingPrice;
+        $itemsPrice = 0;
         for ($i = 0; $i < count($request->cart); $i++) {
-            $verified = Product::find($request->cart[$i]['productId'])->decrement('quantity', $request->cart[$i]['quantity']);
+            $itemsPrice += $request->cart[$i]['price'] * $request->cart[$i]['quantity'];
+            $verified = Product::find($request->cart[$i]['productId'])->decrement('countInStock', $request->cart[$i]['quantity']);
             if (!$verified) {
                 return response()->json(['message' => 'Product out of stock'], 400);
             }
         }
-        return Order::create([
+        $totalPrice = $itemsPrice + $shippingPrice;
+        $order = Order::create([
             'userId' => $request->userId,
             'status' => $status,
             'shippingAddress' => $request->shippingAddress,
@@ -50,8 +52,18 @@ class OrderController extends Controller
             'shippingPrice' => $shippingPrice,
             'totalPrice' => $totalPrice,
             'isDelivered' => false,
-            'cart' => $request->cart,
         ]);
+        for ($i = 0; $i < count($request->cart); $i++) {
+            OrderItem::create([
+                'title' => $request->cart[$i]['title'],
+                'image' => $request->cart[$i]['image'],
+                'price' => $request->cart[$i]['price'],
+                'orderId' => $order->_id,
+                'productId' => $request->cart[$i]['productId'],
+                'quantity' => $request->cart[$i]['quantity'],
+            ]);
+        }
+        return $order;
     }
 
     /**
